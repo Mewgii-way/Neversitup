@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <h1 id="header"></h1>
+
+    <button type="button" onclick="permu()"> Permutations </button>
+    <button type="button" onclick="findOdd()" > Find the odd int </button>
+    <button type="button" onclick="countSmileys()"> Count the smiley faces </button>
+
+
+  </body>
+</html>
+
+<script>
+    function permu() {
+    let input = prompt("Enter String : (Don't have to put single/double quote) // see example in code "); // Enter input here (Don't have to put single/double quote)
+    //Example = aabb;         // can copy here for test
+    if (input == '') {
+      console.log('Empty input');
+    } else {
+      let arr = input.split('');
+      let stack = [];
+
+      function generate(str, arr) {
+        if (arr.length === 1) {
+          stack.push(str + arr[0]);
+        } else {
+          for (var i = 0; i < arr.length; i++) {
+            generate(
+              str + arr[i],
+              arr.slice(0, i).concat(arr.slice(i + 1, arr.length))
+            );
+          }
+        }
+      }
+
+      generate('', arr); // call function by 2 parameter
+      stack = stack.filter((item, index) => stack.indexOf(item) === index);
+      console.log(stack);
+    }
+  }
+
+  function findOdd() {
+  // var arr = [1,2,2,3,3,3,4,3,3,3,2,2,1];
+  var arr = prompt("Enter Array : ( Don't have to put '[ ]' ) // see example in code"); // (Don't have to put '[]')
+  // Example = 1,2,2,3,3,3,4,3,3,3,2,2,1; //can copy here for test
+  var countInt = {};
+
+  for (let i = 0; i < arr.length; i++) {
+    const checked = 'เลข ' + arr[i];
+    if (countInt[checked]) {
+      countInt[checked] += 1;
+    } else {
+      countInt[checked] = 1;
+    }
+  }
+  for (let key in countInt) {
+    if (countInt[key] % 2 === 0) {
+      //console.log(key + ' have ' + countInt[key] + ' is even')
+    } else {
+      console.log(key + ' have ' + countInt[key] + ' is odd');
+    }
+  }
+}
+
+function countSmileys() {
+  function countSmileys(arr) {
+    const matches = arr.join('').match(/[:;][-~]?[D)]/g);
+    return matches ? matches.length : 0;
+  }
+
+  console.log(countSmileys([':)', ';(', ';}', ':-D']));
+  console.log(countSmileys([';D', ':-(', ':-)', ';~)']));
+  console.log(countSmileys([';]', ':[', ';*', ':$', ';-D']));
+  console.log(countSmileys([]));
+}
+</script>
